@@ -219,8 +219,8 @@
             }
         }
 
-        // Add this image compression function
-        function compressImage(base64String, maxWidth = 800) {
+        // Replace the existing compressImage function with this one
+        function compressImage(base64String) {
             return new Promise((resolve) => {
                 const img = new Image();
                 img.src = base64String;
@@ -229,7 +229,8 @@
                     let width = img.width;
                     let height = img.height;
                     
-                    // Calculate new dimensions
+                    // More aggressive resizing - max width 400px
+                    const maxWidth = 400;
                     if (width > maxWidth) {
                         height = Math.round((height * maxWidth) / width);
                         width = maxWidth;
@@ -239,10 +240,13 @@
                     canvas.height = height;
                     
                     const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = '#FFFFFF'; // Add white background
+                    ctx.fillRect(0, 0, width, height);
                     ctx.drawImage(img, 0, 0, width, height);
                     
-                    // Compress image to JPEG with reduced quality
-                    resolve(canvas.toDataURL('image/jpeg', 0.5));
+                    // Compress image to JPEG with very low quality (0.1 = 10% quality)
+                    const compressedImage = canvas.toDataURL('image/jpeg', 0.1);
+                    resolve(compressedImage);
                 };
             });
         }
