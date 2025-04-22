@@ -154,10 +154,13 @@
             try {
                 const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
                     headers: {
-                        'X-Master-Key': API_KEY
+                        'X-Master-Key': API_KEY,
+                        'X-Access-Key': API_KEY
                     }
                 });
+                
                 if (!response.ok) throw new Error('Failed to fetch books');
+                
                 const data = await response.json();
                 const books = data.record.books || [];
                 
@@ -230,16 +233,20 @@
 
                 // Get current books from JSONBin
                 const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                    method: 'GET',
                     headers: {
-                        'X-Master-Key': API_KEY
+                        'X-Master-Key': API_KEY,
+                        'X-Access-Key': API_KEY
                     }
                 });
                 
-                if (!response.ok) throw new Error('Failed to fetch current books');
+                if (!response.ok) {
+                    console.error('Fetch error:', await response.text());
+                    throw new Error(`Failed to fetch books: ${response.status}`);
+                }
                 
                 const data = await response.json();
-                const currentBooks = data.record.books || [];
-
+                
                 // Create new book object
                 const newBook = {
                     title: document.getElementById('title').value,
@@ -250,19 +257,28 @@
                 };
                 
                 // Add new book to existing books array
-                const updatedBooks = [...currentBooks, newBook];
+                const currentBooks = data.record.books || [];
+                currentBooks.push(newBook);
                 
                 // Save updated books array
                 const saveResponse = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-Master-Key': API_KEY
+                        'X-Master-Key': API_KEY,
+                        'X-Access-Key': API_KEY,
+                        'X-Bin-Meta': false
                     },
-                    body: JSON.stringify({ books: updatedBooks })
+                    body: JSON.stringify({
+                        books: currentBooks
+                    })
                 });
 
-                if (!saveResponse.ok) throw new Error('Failed to save book');
+                if (!saveResponse.ok) {
+                    const errorText = await saveResponse.text();
+                    console.error('Save error:', errorText);
+                    throw new Error(`Failed to save: ${saveResponse.status} - ${errorText}`);
+                }
 
                 // Reset form and reload books
                 this.reset();
@@ -270,8 +286,8 @@
                 await loadBooks();
                 alert('Book added successfully!');
             } catch (error) {
-                console.error('Error adding book:', error);
-                alert('Failed to add book. Please try again.');
+                console.error('Detailed error:', error);
+                alert(`Error: ${error.message}`);
             }
         });
 
@@ -280,29 +296,4 @@
             if (confirm('Are you sure you want to delete this book?')) {
                 try {
                     // Get current books
-                    const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-                        headers: {
-                            'X-Master-Key': API_KEY
-                        }
-                    });
-                    const data = await response.json();
-                    const books = data.record.books || [];
-                    
-                    // Remove book
-                    books.splice(index, 1);
-                    
-                    // Save updated books
-                    await saveBooks(books);
-                    await loadBooks();
-                } catch (error) {
-                    console.error('Error deleting book:', error);
-                    alert('Failed to delete book. Please try again.');
-                }
-            }
-        }
-
-        // Initialize admin panel
-        checkLogin();
-    </script>
-</body>
-</html> 
+                    const response = await fetch(`
