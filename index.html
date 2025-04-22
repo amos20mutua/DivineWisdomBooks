@@ -24,147 +24,156 @@
     <style>
         .fancy-font { font-family: 'Dancing Script', cursive; }
         .elegant-font { font-family: 'Playfair Display', serif; }
+        .hidden-books {
+            display: none;
+        }
+        .show-books .hidden-books {
+            display: block;
+        }
     </style>
+    <script>
+        // Remove the hardcoded bookCatalog array and replace with this:
+        function getBookCatalog() {
+            // Get books from localStorage or use default books if none exist
+            const savedBooks = JSON.parse(localStorage.getItem('books')) || [];
+            if (savedBooks.length > 0) {
+                return savedBooks;
+            }
+            
+            // Default books if no books are in localStorage
+            return [
+                {
+                    image: "https://images.unsplash.com/photo-1585436249848-3a8bf30d2389",
+                    title: "The Purpose Driven Life",
+                    author: "Rick Warren",
+                    price: 149,
+                    description: "What on Earth Am I Here For? Discover your purpose through God's perspective."
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1585436248330-22d35c8ad326",
+                    title: "Dangerous Prayers from the Courts of Heaven",
+                    author: "Dr. Robert Henderson",
+                    price: 139,
+                    description: "Securing God's Breakthrough in Your Life and Legacy."
+                },
+                {
+                    image: "https://example.com/book1.jpg",
+                    title: "Woman Thou Art Loosed",
+                    author: "T.D. Jakes",
+                    price: 145,
+                    description: "Breaking free from emotional and spiritual bondage."
+                },
+                {
+                    image: "https://example.com/book2.jpg",
+                    title: "Fervent",
+                    author: "Priscilla Shirer",
+                    price: 135,
+                    description: "A woman's battle plan for serious, specific, and strategic prayer."
+                },
+                {
+                    image: "https://example.com/book3.jpg",
+                    title: "The Confident Woman",
+                    author: "Joyce Meyer",
+                    price: 140,
+                    description: "Start today living boldly and without fear."
+                },
+                // ... Add more books by copying this template:
+                /*
+                {
+                    image: "IMAGE_URL",
+                    title: "BOOK_TITLE",
+                    author: "AUTHOR_NAME",
+                    price: PRICE_IN_KSH,
+                    description: "BOOK_DESCRIPTION"
+                },
+                */
+            ];
+        }
+
+        // Update the generateBookCards function
+        function generateBookCards() {
+            const bookGrid = document.getElementById('bookGrid');
+            const bookCatalog = getBookCatalog();
+            const visibleBooks = bookCatalog.slice(0, 5); // Show first 5 books initially
+            
+            const bookCards = bookCatalog.map((book, index) => `
+                <div class="${index >= 5 ? 'hidden-books' : ''} bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    <div class="relative">
+                        <img src="${book.image}" alt="${book.title}" class="w-full h-64 object-cover">
+                        <div class="absolute top-0 right-0 bg-rose-default text-white px-3 py-1 m-2 rounded-full text-sm">
+                            KSh ${book.price}
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h2 class="text-xl elegant-font font-semibold mb-2 text-gray-800">${book.title}</h2>
+                        <p class="text-rose-dark mb-2 italic">${book.author}</p>
+                        <p class="text-gray-600 mb-4 text-sm">${book.description}</p>
+                        <button onclick="buyBook('${book.title.replace("'", "\\'")}', ${book.price})" 
+                                class="w-full bg-rose-default text-white py-2 px-4 rounded-full hover:bg-rose-dark transition duration-300 flex items-center justify-center">
+                            <span>Purchase Now</span>
+                            <span class="ml-2">💝</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            bookGrid.innerHTML = bookCards;
+
+            // Add "Show More" button if there are more than 5 books
+            const showMoreContainer = document.getElementById('showMoreContainer');
+            if (bookCatalog.length > 5) {
+                showMoreContainer.innerHTML = `
+                    <button onclick="toggleBooks()" id="showMoreBtn" 
+                            class="mt-8 mx-auto block bg-rose-default text-white py-2 px-6 rounded-full hover:bg-rose-dark transition duration-300">
+                        Show More Books ✨
+                    </button>
+                `;
+            }
+        }
+
+        function toggleBooks() {
+            const bookGrid = document.getElementById('bookGrid');
+            const showMoreBtn = document.getElementById('showMoreBtn');
+            bookGrid.classList.toggle('show-books');
+            
+            if (bookGrid.classList.contains('show-books')) {
+                showMoreBtn.textContent = 'Show Less ✨';
+            } else {
+                showMoreBtn.textContent = 'Show More Books ✨';
+                // Smooth scroll back to top of book section
+                document.querySelector('.welcome-section').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
 </head>
 <body class="bg-rose-light">
     <!-- Header -->
     <header class="bg-white shadow-md fixed w-full top-0 z-10">
-        <div class="container mx-auto px-4 py-4">
-            <h1 class="text-3xl fancy-font text-rose-dark">Grace & Glory Books</h1>
-            <p class="text-sm elegant-font text-gray-600">Inspiring Hearts Through Christian Literature ✨</p>
+        <div class="container mx-auto px-4 py-4 text-center">
+            <h1 class="text-3xl fancy-font text-rose-dark">Lyndsay's Grace & Glory Books</h1>
+            <p class="text-sm elegant-font text-gray-600">Where Faith Meets Literature ✨</p>
+            <div class="text-xs text-rose-default mt-1 italic">Curated by Lyndsay with love 💝</div>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8 mt-24">
         <!-- Welcome Message -->
-        <div class="text-center mb-12">
-            <h2 class="fancy-font text-2xl text-rose-dark mb-3">Welcome to Our Divine Collection</h2>
-            <p class="elegant-font text-gray-600">Curated with love to nurture your spiritual journey 🌸</p>
+        <div class="text-center mb-12 welcome-section">
+            <h2 class="fancy-font text-2xl text-rose-dark mb-3">Welcome to My Divine Collection</h2>
+            <p class="elegant-font text-gray-600">Each book personally selected to inspire your spiritual journey 🌸</p>
+            <div class="mt-4 text-sm text-rose-default">
+                <span class="italic">"Reading is to the mind what prayer is to the soul"</span>
+            </div>
         </div>
 
         <!-- Book Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Book Card 1 -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1585436249848-3a8bf30d2389" alt="Purpose Driven Life" class="w-full h-64 object-cover">
-                    <div class="absolute top-0 right-0 bg-rose-default text-white px-3 py-1 m-2 rounded-full text-sm">
-                        KSh 149
-                    </div>
-                </div>
-                <div class="p-6">
-                    <h2 class="text-xl elegant-font font-semibold mb-2 text-gray-800">The Purpose Driven Life</h2>
-                    <p class="text-rose-dark mb-2 italic">Rick Warren</p>
-                    <p class="text-gray-600 mb-4 text-sm">What on Earth Am I Here For? Discover your purpose through God's perspective.</p>
-                    <button onclick="buyBook('The Purpose Driven Life', 149)" 
-                            class="w-full bg-rose-default text-white py-2 px-4 rounded-full hover:bg-rose-dark transition duration-300 flex items-center justify-center">
-                        <span>Purchase Now</span>
-                        <span class="ml-2">💝</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Book Card 2 -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1585436248330-22d35c8ad326" alt="Dangerous Prayers" class="w-full h-64 object-cover">
-                    <div class="absolute top-0 right-0 bg-rose-default text-white px-3 py-1 m-2 rounded-full text-sm">
-                        KSh 139
-                    </div>
-                </div>
-                <div class="p-6">
-                    <h2 class="text-xl elegant-font font-semibold mb-2 text-gray-800">Dangerous Prayers from the Courts of Heaven</h2>
-                    <p class="text-rose-dark mb-2 italic">Dr. Robert Henderson</p>
-                    <p class="text-gray-600 mb-4 text-sm">Securing God's Breakthrough in Your Life and Legacy.</p>
-                    <button onclick="buyBook('Dangerous Prayers from the Courts of Heaven', 139)" 
-                            class="w-full bg-rose-default text-white py-2 px-4 rounded-full hover:bg-rose-dark transition duration-300 flex items-center justify-center">
-                        <span>Purchase Now</span>
-                        <span class="ml-2">💝</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Book Card 3 -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1585436247275-11703e6b6419" alt="Battlefield of the Mind" class="w-full h-64 object-cover">
-                    <div class="absolute top-0 right-0 bg-rose-default text-white px-3 py-1 m-2 rounded-full text-sm">
-                        KSh 145
-                    </div>
-                </div>
-                <div class="p-6">
-                    <h2 class="text-xl elegant-font font-semibold mb-2 text-gray-800">Battlefield of the Mind</h2>
-                    <p class="text-rose-dark mb-2 italic">Joyce Meyer</p>
-                    <p class="text-gray-600 mb-4 text-sm">Winning the Battle in Your Mind - Updated Edition.</p>
-                    <button onclick="buyBook('Battlefield of the Mind', 145)" 
-                            class="w-full bg-rose-default text-white py-2 px-4 rounded-full hover:bg-rose-dark transition duration-300 flex items-center justify-center">
-                        <span>Purchase Now</span>
-                        <span class="ml-2">💝</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Book Card 4 -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1585436248401-8e4615d5b5b6" alt="Prayer and Fasting" class="w-full h-64 object-cover">
-                    <div class="absolute top-0 right-0 bg-rose-default text-white px-3 py-1 m-2 rounded-full text-sm">
-                        KSh 129
-                    </div>
-                </div>
-                <div class="p-6">
-                    <h2 class="text-xl elegant-font font-semibold mb-2 text-gray-800">Prayer and Fasting</h2>
-                    <p class="text-rose-dark mb-2 italic">Dr. Myles Munroe</p>
-                    <p class="text-gray-600 mb-4 text-sm">Understanding the Kingdom Principles of Prayer and Fasting.</p>
-                    <button onclick="buyBook('Prayer and Fasting', 129)" 
-                            class="w-full bg-rose-default text-white py-2 px-4 rounded-full hover:bg-rose-dark transition duration-300 flex items-center justify-center">
-                        <span>Purchase Now</span>
-                        <span class="ml-2">💝</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Book Card 5 -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1585436248438-7f4959dd6dde" alt="Power of Praying" class="w-full h-64 object-cover">
-                    <div class="absolute top-0 right-0 bg-rose-default text-white px-3 py-1 m-2 rounded-full text-sm">
-                        KSh 135
-                    </div>
-                </div>
-                <div class="p-6">
-                    <h2 class="text-xl elegant-font font-semibold mb-2 text-gray-800">The Power of Praying Woman</h2>
-                    <p class="text-rose-dark mb-2 italic">Stormie Omartian</p>
-                    <p class="text-gray-600 mb-4 text-sm">A spiritual guidebook for women seeking God's guidance.</p>
-                    <button onclick="buyBook('The Power of Praying Woman', 135)" 
-                            class="w-full bg-rose-default text-white py-2 px-4 rounded-full hover:bg-rose-dark transition duration-300 flex items-center justify-center">
-                        <span>Purchase Now</span>
-                        <span class="ml-2">💝</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Book Card 6 -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1585436248486-f15b31012c82" alt="Heaven's Courts" class="w-full h-64 object-cover">
-                    <div class="absolute top-0 right-0 bg-rose-default text-white px-3 py-1 m-2 rounded-full text-sm">
-                        KSh 142
-                    </div>
-                </div>
-                <div class="p-6">
-                    <h2 class="text-xl elegant-font font-semibold mb-2 text-gray-800">Operating in the Courts of Heaven</h2>
-                    <p class="text-rose-dark mb-2 italic">Robert Henderson</p>
-                    <p class="text-gray-600 mb-4 text-sm">Granting God the Legal Rights to Fulfill His Passion.</p>
-                    <button onclick="buyBook('Operating in the Courts of Heaven', 142)" 
-                            class="w-full bg-rose-default text-white py-2 px-4 rounded-full hover:bg-rose-dark transition duration-300 flex items-center justify-center">
-                        <span>Purchase Now</span>
-                        <span class="ml-2">💝</span>
-                    </button>
-                </div>
-            </div>
+        <div id="bookGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Books will be generated here automatically -->
         </div>
+
+        <!-- Show More Button Container -->
+        <div id="showMoreContainer" class="text-center"></div>
     </main>
 
     <!-- Footer -->
@@ -172,33 +181,47 @@
         <div class="container mx-auto px-4 py-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <h3 class="text-xl fancy-font mb-3">Let's Connect</h3>
-                    <p class="mb-2">📱 +254 105 255 479</p>
-                    <p>🌸 Nairobi, Kenya</p>
+                    <h3 class="text-xl fancy-font mb-3">Connect with Lyndsay</h3>
+                    <p class="mb-2">📱 Call/WhatsApp: +254 102 264 188</p>
+                    <p>🌸 Based in Nairobi, Kenya</p>
+                    <p class="mt-2 text-sm italic">Available 24/7 - Always here to serve you! ✨</p>
                 </div>
                 <div>
-                    <h3 class="text-xl fancy-font mb-3">Follow Our Journey</h3>
-                    <div class="space-x-4">
-                        <a href="#" class="hover:text-pink-200">Facebook</a>
-                        <a href="#" class="hover:text-pink-200">Instagram</a>
+                    <h3 class="text-xl fancy-font mb-3">Join Our Community</h3>
+                    <div class="space-y-2">
+                        <a href="https://instagram.com/c.h.a.r.m_.i.n.g" 
+                           target="_blank" 
+                           class="block hover:text-pink-200 transition-colors duration-300 flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                            ✨ Follow @c.h.a.r.m_.i.n.g
+                        </a>
+                        <p class="text-sm mt-4 italic">
+                            "Let's grow in faith together"
+                        </p>
                     </div>
                 </div>
             </div>
-            <div class="mt-6 pt-4 border-t border-pink-300 text-center text-sm">
-                <p>✨ Spreading God's Love Through Literature ✨</p>
-                <p class="mt-2">&copy; 2024 Grace & Glory Books</p>
+            <div class="mt-6 pt-4 border-t border-pink-300 text-center">
+                <p class="fancy-font text-lg">✨ Spreading God's Love Through Literature ✨</p>
+                <p class="mt-2 text-sm">© 2024 Lyndsay's Grace & Glory Books</p>
+                <p class="text-xs mt-1 italic">Serving the Christian community with handpicked spiritual treasures</p>
             </div>
         </div>
     </footer>
 
     <script>
-        const WHATSAPP_NUMBER = '254105255479';
+        const WHATSAPP_NUMBER = '254102264188';
 
         function buyBook(bookTitle, price) {
-            const message = `Hello! I would like to purchase the e-book "${bookTitle}" for KSh ${price}. Please guide me on payment.`;
+            const message = `Hi Lyndsay! I'm interested in purchasing the e-book "${bookTitle}" for KSh ${price}. Please guide me through the payment process.`;
             const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
             window.location.href = whatsappUrl;
         }
+
+        // Initialize the book grid when the page loads
+        document.addEventListener('DOMContentLoaded', generateBookCards);
     </script>
 </body>
 </html> 
