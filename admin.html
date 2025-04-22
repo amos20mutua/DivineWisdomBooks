@@ -113,12 +113,18 @@
         // Handle login
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const password = document.getElementById('adminPassword').value;
-            if (password === ADMIN_PASSWORD) {
+            const enteredPassword = document.getElementById('adminPassword').value.trim();
+            const expectedPassword = 'lyndsay.123!';
+            
+            console.log('Entered password:', enteredPassword);
+            console.log('Expected password:', expectedPassword);
+            console.log('Do they match?', enteredPassword === expectedPassword);
+            
+            if (enteredPassword === expectedPassword) {
                 sessionStorage.setItem('adminLoggedIn', 'true');
                 checkLogin();
             } else {
-                alert('Incorrect password');
+                alert(`Incorrect password. Please enter exactly: lyndsay.123!`);
             }
         });
 
@@ -296,4 +302,42 @@
             if (confirm('Are you sure you want to delete this book?')) {
                 try {
                     // Get current books
-                    const response = await fetch(`
+                    const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                        headers: {
+                            'X-Master-Key': API_KEY,
+                            'X-Access-Key': API_KEY
+                        }
+                    });
+                    
+                    if (!response.ok) throw new Error('Failed to fetch books');
+                    
+                    const data = await response.json();
+                    const books = data.record.books || [];
+                    
+                    // Remove the book from the array
+                    const updatedBooks = books.filter((_, i) => i !== index);
+                    
+                    // Save updated books array
+                    const saveResponse = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Master-Key': API_KEY
+                        },
+                        body: JSON.stringify({ books: updatedBooks })
+                    });
+
+                    if (!saveResponse.ok) throw new Error('Failed to delete book');
+
+                    // Reload books
+                    await loadBooks();
+                    alert('Book deleted successfully!');
+                } catch (error) {
+                    console.error('Error deleting book:', error);
+                    alert('Failed to delete book. Please try again.');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
