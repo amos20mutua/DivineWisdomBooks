@@ -71,7 +71,7 @@
                         <h2 class="text-xl elegant-font font-semibold mb-2 text-gray-800">${book.title}</h2>
                         <p class="text-rose-dark mb-2 italic">${book.author}</p>
                         <p class="text-gray-600 mb-4 text-sm">${book.description}</p>
-                        <button onclick="buyBook('${book.title.replace("'", "\\'")}', ${book.price})" 
+                        <button onclick="buyBook('${book.title.replace("'", "\\'")}', ${book.price}, '${book.image}')" 
                                 class="w-full bg-rose-default text-white py-2 px-4 rounded-full hover:bg-rose-dark transition duration-300 flex items-center justify-center">
                             <span>Purchase Now</span>
                             <span class="ml-2">💝</span>
@@ -177,8 +177,16 @@
     <script>
         const WHATSAPP_NUMBER = '254102264188';
 
-        function buyBook(bookTitle, price) {
-            const message = `Hi Lyndsay! I'm interested in purchasing the e-book "${bookTitle}" for KSh ${price}. Please guide me through the payment process.`;
+        function buyBook(bookTitle, price, imageUrl) {
+            const message = `Hi Lyndsay! 👋
+
+I'm interested in purchasing the e-book:
+📚 Title: "${bookTitle}"
+💰 Price: KSh ${price}
+🔗 Book Cover: ${imageUrl}
+
+Please guide me through the payment process. Thank you! ✨`;
+
             const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
             window.location.href = whatsappUrl;
         }
