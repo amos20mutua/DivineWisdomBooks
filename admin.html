@@ -125,7 +125,7 @@
                 sessionStorage.setItem('adminLoggedIn', 'true');
                 checkLogin();
             } else {
-                alert(`Incorrect password. Please enter exactly: lyndsay.123!`);
+                alert(`🔐 Access Denied: Incorrect password. Please try again.`);
             }
         });
 
@@ -198,7 +198,7 @@
                 `).join('');
             } catch (error) {
                 console.error('Error loading books:', error);
-                alert('Failed to load books. Please try again.');
+                alert('📚 Unable to load your book catalog. Please refresh the page.');
             }
         }
 
@@ -258,7 +258,7 @@
             
             const imageFile = document.getElementById('coverImage').files[0];
             if (!imageFile) {
-                alert('Please select a book cover image');
+                alert('📸 Please select a book cover image before saving.');
                 return;
             }
 
@@ -326,16 +326,16 @@
                 this.reset();
                 clearImage();
                 await loadBooks();
-                alert('Book added successfully!');
+                alert(`✨ Success! "${document.getElementById('title').value}" has been added to your book catalog.`);
             } catch (error) {
                 console.error('Detailed error:', error);
-                alert(`Error: ${error.message}`);
+                alert(`📚 Oops! Unable to add the book. ${error.message}`);
             }
         });
 
         // Update the delete function
         async function deleteBook(index) {
-            if (confirm('Are you sure you want to delete this book?')) {
+            if (confirm('🤔 Are you sure you want to remove this book from your catalog?')) {
                 try {
                     // Get current books
                     const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
@@ -367,10 +367,10 @@
 
                     // Reload books
                     await loadBooks();
-                    alert('Book deleted successfully!');
+                    alert('✨ Book successfully removed from your catalog!');
                 } catch (error) {
                     console.error('Error deleting book:', error);
-                    alert('Failed to delete book. Please try again.');
+                    alert('❌ Unable to remove the book. Please try again.');
                 }
             }
         }
