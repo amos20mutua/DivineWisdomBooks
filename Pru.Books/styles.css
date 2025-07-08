@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for PruBooks unified look */
+.fancy-font { font-family: 'Dancing Script', cursive; }
+.elegant-font { font-family: 'Playfair Display', serif; }
+.hidden-books { display: none; }
+.show-books .hidden-books { display: block; }
+.frosted {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(6px);
+    border-radius: 1rem;
+}
+.gold-text { color: #C28811; }
+.gold-bg { background-color: #C28811; }
+.gold-border { border-color: #C28811; }
+.blur-up { filter: blur(10px); transition: filter 0.4s; }
+.blur-up.lazyloaded { filter: blur(0); }
+.navbar-shadow { box-shadow: 0 2px 8px 0 rgba(194, 136, 17, 0.08); }
+.sticky-footer { position: sticky; bottom: 0; left: 0; width: 100%; }
+.skeleton {
+    background: linear-gradient(90deg, #f5faff 25%, #e3eaf2 50%, #f5faff 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.2s infinite linear;
+}
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+.cart-modal-bg {
+    background: rgba(0,0,0,0.35);
+}
+.cart-modal {
+    animation: slideInCart 0.3s cubic-bezier(.4,0,.2,1);
+}
+@keyframes slideInCart {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+.toast {
+    animation: fadeInOut 2.5s;
+}
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(20px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-20px); }
+}
+.mobile-menu.closed {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.mobile-menu.open {
+  max-height: 500px;
+  opacity: 1;
+  pointer-events: auto;
+}
+.mobile-menu {
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px);
+}
+/* Girly card accents */
+.pretty-card {
+    border-radius: 2.5rem;
+    box-shadow: 0 4px 32px 0 rgba(255, 182, 193, 0.15), 0 2px 8px 0 rgba(194, 136, 17, 0.08);
+    border: 2px solid #C28811;
+    background: linear-gradient(135deg, #fffafc 0%, #f7e7ce 100%);
+} 
