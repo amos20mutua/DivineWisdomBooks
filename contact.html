@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PruBooks | Contact</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        icy: {
+                            light: '#F5FAFF',
+                            DEFAULT: '#D6E6F2',
+                            dark: '#A9C4D8',
+                        },
+                        gold: {
+                            light: '#F7E7CE',
+                            DEFAULT: '#C28811',
+                            dark: '#BFA14A',
+                        },
+                        frost: '#E3EAF2',
+                        slate: '#6B7280',
+                    },
+                    fontFamily: {
+                        script: ['Dancing Script', 'cursive'],
+                        elegant: ['Playfair Display', 'serif'],
+                    },
+                    boxShadow: {
+                        frost: '0 4px 32px 0 rgba(173, 216, 230, 0.15)',
+                    },
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23C28811'/%3E%3Ctext x='50%' y='56%' text-anchor='middle' font-size='28' font-family='Playfair Display, serif' fill='white' font-weight='bold'%3EPru%3C/text%3E%3C/svg%3E">
+    <style>
+        .fancy-font { font-family: 'Dancing Script', cursive; }
+        .elegant-font { font-family: 'Playfair Display', serif; }
+        .frosted {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(6px);
+            border-radius: 1rem;
+        }
+        .gold-text { color: #C28811; }
+        .gold-bg { background-color: #C28811; }
+        .gold-border { border-color: #C28811; }
+        .navbar-shadow { box-shadow: 0 2px 8px 0 rgba(194, 136, 17, 0.08); }
+        .sticky-footer { position: sticky; bottom: 0; left: 0; width: 100%; }
+        .mirror-navbar {
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+            border: 1.5px solid #C28811;
+            box-shadow: 0 8px 32px 0 rgba(194,136,17,0.12), 0 2px 8px 0 rgba(255,182,193,0.10);
+            border-radius: 1.5rem;
+        }
+    </style>
+</head>
+<body class="bg-icy-light min-h-screen flex flex-col relative overflow-x-hidden">
+    <!-- Navbar -->
+    <nav class="mirror-navbar fixed left-1/2 -translate-x-1/2 top-4 z-20" style="width:70vw;max-width:700px;transform:translate(-50%, -8px);padding-top:0.25rem;padding-bottom:0.25rem;">
+        <div class="container flex items-center justify-between px-2 sm:px-4 py-1.5 mx-auto">
+            <div class="flex-1 flex justify-center items-center gap-2">
+                <span class="text-lg sm:text-xl fancy-font gold-text text-center">PruBooks</span>
+            </div>
+            <!-- Hamburger Button (mobile) -->
+            <button id="hamburgerBtn" type="button" class="md:hidden flex flex-col justify-center items-center w-8 h-8 rounded-full border-2 gold-border bg-gradient-to-br from-pink-200 via-pink-100 to-gold/30 shadow hover:bg-pink-200 transition z-30" aria-label="Open menu">
+                <span class="block w-5 h-0.5 bg-gold mb-0.5 rounded transition-all"></span>
+                <span class="block w-5 h-0.5 bg-gold mb-0.5 rounded transition-all"></span>
+                <span class="block w-5 h-0.5 bg-gold rounded transition-all"></span>
+            </button>
+            <div class="hidden md:flex flex-1 justify-center gap-4 sm:gap-6 items-center">
+                <a href="index.html#home" class="text-slate hover:gold-text font-semibold transition-colors text-xs sm:text-sm">Home</a>
+                <a href="contact.html" class="text-slate hover:gold-text font-semibold transition-colors text-xs sm:text-sm">Contact</a>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu closed md:hidden absolute top-full right-2 w-1/3 min-w-[120px] bg-white/60 z-50 border-b gold-border border-2 transition-all duration-300 overflow-hidden pointer-events-auto rounded-2xl shadow-lg backdrop-blur-lg flex justify-end" style="max-height:0;opacity:0;pointer-events:none;">
+            <div class="flex flex-col items-end gap-0.5 py-1.5 px-2 w-full">
+                <a href="index.html#home" class="text-slate hover:gold-text font-semibold transition-colors text-xs py-0.5 px-2 rounded-lg bg-white/40 hover:bg-gold/10 shadow-sm w-fit">Home</a>
+                <a href="contact.html" class="text-slate hover:gold-text font-semibold transition-colors text-xs py-0.5 px-2 rounded-lg bg-white/40 hover:bg-gold/10 shadow-sm w-fit">Contact</a>
+            </div>
+        </div>
+    </nav>
+    <main class="container mx-auto px-2 sm:px-4 py-8 mt-28 flex-1 main-section relative z-10">
+        <section class="flex flex-col items-center text-center mb-10">
+            <h1 class="fancy-font text-4xl sm:text-5xl gold-text mb-2">Contact & Bookings</h1>
+            <p class="elegant-font text-slate text-lg mb-8">Reach out for bookings, questions, or just to say hi!</p>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 w-full max-w-xs sm:max-w-3xl mx-auto">
+                <!-- Phone -->
+                <a href="tel:+254785881419" class="pretty-card flex flex-col items-center p-2 sm:p-4 transition-transform hover:scale-105 group min-w-0">
+                    <span class="bg-gradient-to-br from-pink-200 via-pink-100 to-gold/30 rounded-full p-1.5 mb-1 shadow-lg">
+                        <!-- Phone SVG -->
+                        <svg class="w-5 h-5 text-gold group-hover:text-pink-400 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 5.75A2.75 2.75 0 0 1 5.75 3h2.5A2.75 2.75 0 0 1 11 5.75v1.5A2.75 2.75 0 0 1 8.25 10H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h1.25A2.75 2.75 0 0 1 11 16.75v1.5A2.75 2.75 0 0 1 8.25 21h-2.5A2.75 2.75 0 0 1 3 18.25v-12.5z"/></svg>
+                    </span>
+                    <span class="elegant-font text-xs font-semibold gold-text mb-0.5">Phone</span>
+                    <span class="text-slate text-xs">+254 785 881 419</span>
+                </a>
+                <!-- WhatsApp -->
+                <a href="https://wa.me/254785881419" class="pretty-card flex flex-col items-center p-2 sm:p-4 transition-transform hover:scale-105 group min-w-0">
+                    <span class="bg-gradient-to-br from-green-200 via-pink-100 to-gold/30 rounded-full p-1.5 mb-1 shadow-lg">
+                        <!-- WhatsApp SVG -->
+                        <svg class="w-5 h-5 text-green-500 group-hover:text-gold transition" fill="currentColor" viewBox="0 0 24 24"><path d="M20.52 3.48A12 12 0 0 0 3.48 20.52l-1.32 4.84a1 1 0 0 0 1.22 1.22l4.84-1.32A12 12 0 1 0 20.52 3.48zm-8.52 17a9 9 0 1 1 9-9 9 9 0 0 1-9 9zm4.29-6.71a1 1 0 0 0-1.41 0l-1.29 1.29a7 7 0 0 1-4.24-4.24l1.29-1.29a1 1 0 0 0 0-1.41l-2-2a1 1 0 0 0-1.41 0A5 5 0 0 0 7 12a9 9 0 0 0 9 9 5 5 0 0 0 2.12-1.12 1 1 0 0 0 0-1.41z"/></svg>
+                    </span>
+                    <span class="elegant-font text-xs font-semibold gold-text mb-0.5">WhatsApp</span>
+                    <span class="text-slate text-xs">+254 785 881 419</span>
+                </a>
+                <!-- Email -->
+                <a href="mailto:prudence@email.com" class="pretty-card flex flex-col items-center p-2 sm:p-4 transition-transform hover:scale-105 group min-w-0">
+                    <span class="bg-gradient-to-br from-pink-100 via-gold/20 to-pink-200 rounded-full p-1.5 mb-1 shadow-lg">
+                        <!-- Email SVG -->
+                        <svg class="w-5 h-5 text-pink-400 group-hover:text-gold transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+                    </span>
+                    <span class="elegant-font text-xs font-semibold gold-text mb-0.5">Email</span>
+                    <span class="text-slate text-xs">prudence@email.com</span>
+                </a>
+                <!-- Instagram -->
+                <a href="#" class="pretty-card flex flex-col items-center p-2 sm:p-4 transition-transform hover:scale-105 group min-w-0">
+                    <span class="bg-gradient-to-br from-pink-300 via-pink-100 to-gold/30 rounded-full p-1.5 mb-1 shadow-lg">
+                        <!-- Instagram SVG -->
+                        <svg class="w-5 h-5 text-pink-400 group-hover:text-gold transition" fill="currentColor" viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5zm4.25 2.75a4 4 0 1 1-4 4 4 4 0 0 1 4-4zm0 1.5a2.5 2.5 0 1 0 2.5 2.5 2.5 2.5 0 0 0-2.5-2.5zm5.25.75a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/></svg>
+                    </span>
+                    <span class="elegant-font text-xs font-semibold gold-text mb-0.5">Instagram</span>
+                    <span class="text-slate text-xs">@pru.books</span>
+                </a>
+                <!-- Facebook -->
+                <a href="#" class="pretty-card flex flex-col items-center p-2 sm:p-4 transition-transform hover:scale-105 group min-w-0">
+                    <span class="bg-gradient-to-br from-blue-200 via-pink-100 to-gold/30 rounded-full p-1.5 mb-1 shadow-lg">
+                        <!-- Facebook SVG -->
+                        <svg class="w-5 h-5 text-blue-400 group-hover:text-gold transition" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.6 0 0 .6 0 1.326v21.348C0 23.4.6 24 1.326 24H12.82v-9.294H9.692v-3.622h3.127V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.4 24 24 23.4 24 22.674V1.326C24 .6 23.4 0 22.675 0"/></svg>
+                    </span>
+                    <span class="elegant-font text-xs font-semibold gold-text mb-0.5">Facebook</span>
+                    <span class="text-slate text-xs">PruBooks</span>
+                </a>
+                <!-- Twitter -->
+                <!-- Removed Twitter card to match homepage and user request -->
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white/80 border-t border-gold py-4 mt-16 flex flex-col sm:flex-row items-center justify-between px-4 shadow-inner z-20">
+        <div class="flex items-center gap-2 mb-2 sm:mb-0">
+            <span class="fancy-font text-xl gold-text">PruBooks</span>
+            <span class="text-slate text-xs">© 2024 Prudence. All rights reserved.</span>
+        </div>
+        <div class="flex gap-4">
+            <!-- Social media icons removed as requested -->
+        </div>
+    </footer>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        let menuOpen = false;
+        hamburgerBtn.classList.add('cursor-pointer');
+        function showMenu() {
+          mobileMenu.classList.remove('closed');
+          mobileMenu.classList.add('open');
+          mobileMenu.style.maxHeight = '';
+          mobileMenu.style.opacity = '';
+          mobileMenu.style.pointerEvents = '';
+        }
+        function hideMenu() {
+          mobileMenu.classList.remove('open');
+          mobileMenu.classList.add('closed');
+          mobileMenu.style.maxHeight = '0';
+          mobileMenu.style.opacity = '0';
+          mobileMenu.style.pointerEvents = 'none';
+        }
+        hamburgerBtn.addEventListener('click', () => {
+          menuOpen = !menuOpen;
+          if (menuOpen) {
+            showMenu();
+          } else {
+            hideMenu();
+          }
+        });
+        // Close menu when clicking a link
+        mobileMenu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            menuOpen = false;
+            hideMenu();
+          });
+        });
+      });
+    </script>
+</body>
+</html> 
